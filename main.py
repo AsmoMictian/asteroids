@@ -17,10 +17,11 @@ def main():
             if event.type == pygame.QUIT:
                 return
         screen.fill((0,0,0))
+        hero.update(dt)
         hero.draw(screen)
         pygame.display.flip()
-        clock.tick(60)
-        dt = clock.tick() / 1000 #Return time elapsed since last frame in seconds.
+        dt = clock.tick(60)
+        #Return time elapsed since last frame in seconds.
     pygame.quit
     print("Starting Asteroids!")
     print(f"Screen width: {SCREEN_WIDTH}")
