@@ -4,19 +4,24 @@
 import pygame
 from constants import *
 from player import *
+from asteroidfield import *
 
 def main():
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     clock = pygame.time.Clock()
     dt = 0
+    fieldofasteroids = AsteroidField()
         
-    #Create Drawable and Updatable groups for objects.
+    #Create groups for objects.
     updateable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
+    asteroids = pygame.sprite.Group()
 
     #Set BOTH groups as containers for Player
     Player.containers = (updateable, drawable)
+    Asteroid.containers = (asteroids, updateable, drawable)
+    AsteroidField.containers = (updateable)
 
     hero = Player((SCREEN_WIDTH / 2), SCREEN_HEIGHT / 2) #Player's starting position
 
