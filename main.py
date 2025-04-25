@@ -2,6 +2,7 @@
 # the open-source pygame library
 # throughout this file
 import pygame
+import sys
 from constants import *
 from player import *
 from asteroidfield import *
@@ -18,11 +19,11 @@ def main():
     drawable = pygame.sprite.Group()
     asteroids = pygame.sprite.Group()
 
-    #Set BOTH groups as containers for Player
+    #Set containers
     Player.containers = (updateable, drawable)
     Asteroid.containers = (asteroids, updateable, drawable)
     AsteroidField.containers = (updateable)
-    asteroids = AsteroidField()
+    asteroid_field = AsteroidField()
 
     hero = Player((SCREEN_WIDTH / 2), SCREEN_HEIGHT / 2) #Player's starting position
 
@@ -32,16 +33,20 @@ def main():
                 return
         screen.fill((0,0,0))
         updateable.update(dt) #Calling the update function on the whole group instead of ind. members.
+
+        #Checking for collisions. If found, print "Game Over!" and immediately exit.
+        for asteroid in asteroids:
+            if hero.collision_detect(asteroid):
+                print("Game Over!")
+                sys.exit()
+
         #Loop over ALL objects in the drawable group and .draw() them individually.
         for item in drawable:
             item.draw(screen) #Using item refers to each object in the group as the loop iterates.
         pygame.display.flip()
-        dt = clock.tick(60)
+        dt = clock.tick(60) / 1000.0
         #Return time elapsed since last frame in seconds.
-    pygame.quit
-    print("Starting Asteroids!")
-    print(f"Screen width: {SCREEN_WIDTH}")
-    print(f"Screen height: {SCREEN_HEIGHT}")
+
 
 if __name__ == "__main__":
     main()
