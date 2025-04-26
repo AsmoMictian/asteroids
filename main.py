@@ -18,14 +18,18 @@ def main():
     updateable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
     asteroids = pygame.sprite.Group()
+    shots = pygame.sprite.Group()
 
     #Set containers
     Player.containers = (updateable, drawable)
     Asteroid.containers = (asteroids, updateable, drawable)
     AsteroidField.containers = (updateable)
+    Shot.containers = (updateable, drawable)
     asteroid_field = AsteroidField()
 
-    hero = Player((SCREEN_WIDTH / 2), SCREEN_HEIGHT / 2) #Player's starting position
+    hero = Player((SCREEN_WIDTH / 2), SCREEN_HEIGHT / 2) #instantiate player, set start pos
+    
+
 
     while True:
         for event in pygame.event.get():
@@ -35,8 +39,8 @@ def main():
         updateable.update(dt) #Calling the update function on the whole group instead of ind. members.
 
         #Checking for collisions. If found, print "Game Over!" and immediately exit.
-        for asteroid in asteroids:
-            if hero.collision_detect(asteroid):
+        for asteroid in asteroids: #iterate over each object in the 'asteroids' group.
+            if hero.collision_detect(asteroid): #Call coll_det method on player object and handle.
                 print("Game Over!")
                 sys.exit()
 
@@ -46,6 +50,7 @@ def main():
         pygame.display.flip()
         dt = clock.tick(60) / 1000.0
         #Return time elapsed since last frame in seconds.
+        
 
 
 if __name__ == "__main__":
