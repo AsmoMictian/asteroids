@@ -3,6 +3,7 @@ from constants import *
 class Shot(CircleShape):
     def __init__(self, x, y, radius):
         super().__init__(x, y, radius)
+        self.add(*self.__class__.containers)
     
 
     def draw(self, screen):

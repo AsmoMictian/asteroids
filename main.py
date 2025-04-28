@@ -24,7 +24,7 @@ def main():
     Player.containers = (updateable, drawable)
     Asteroid.containers = (asteroids, updateable, drawable)
     AsteroidField.containers = (updateable)
-    Shot.containers = (updateable, drawable)
+    Shot.containers = (updateable, drawable, shots)
     asteroid_field = AsteroidField()
 
     hero = Player((SCREEN_WIDTH / 2), SCREEN_HEIGHT / 2) #instantiate player, set start pos
@@ -38,11 +38,19 @@ def main():
         screen.fill((0,0,0))
         updateable.update(dt) #Calling the update function on the whole group instead of ind. members.
 
-        #Checking for collisions. If found, print "Game Over!" and immediately exit.
+        #Checking for collisions. 
         for asteroid in asteroids: #iterate over each object in the 'asteroids' group.
             if hero.collision_detect(asteroid): #Call coll_det method on player object and handle.
                 print("Game Over!")
                 sys.exit()
+        
+        #Asteroid hit detection
+        for asteroid in asteroids: #for each asteroid in the list...
+            for shot in shots:
+                if asteroid.collision_detect(shot):
+                    asteroid.kill()
+                    shot.kill()
+
 
         #Loop over ALL objects in the drawable group and .draw() them individually.
         for item in drawable:
